@@ -12,11 +12,17 @@ def HouseDetails(URL):
 
     for i in results:
         for j in i.find_all('span', {'class': 'value'}):
-            values = np.append(values, j.get_text())
+            if len(j.get_text().split('                \n')) == 1:
+                values = np.append(values, j.get_text().strip())
+            else:
+                return None
 
     for i in results:
         for j in i.find_all('span', {'class': 'label'}):
-            labels = np.append(labels, j.get_text())
+            if len(j.get_text().split('                \n')) == 1:
+                labels = np.append(labels, j.get_text().strip())
+            else: 
+                return None
 
     dict = {}
 
@@ -24,10 +30,3 @@ def HouseDetails(URL):
         dict[A] = B
 
     return(dict)
-
-
-
-URL = 'https://www.royallepage.ca/en/property/alberta/calgary/617-55-avenue-sw/19600830/mlsa2044095/'
-
-
-print(HouseDetails(URL))
